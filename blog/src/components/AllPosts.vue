@@ -1,8 +1,11 @@
 <template>
-  <div>
+  <div class="posts-container">
     <ul>
       <li v-for="post in posts" :key="post.id">
-        <img :src="post.image ? post.image : this.placeholder" alt="" />
+        <div
+          class="image"
+          :style="{ backgroundImage: 'url(' + post.image + ')' }"
+        ></div>
         <div class="text">
           <p class="author-date">
             {{ post.timestamp | moment('MMMM D, YYYY') }} | by
@@ -59,6 +62,11 @@ export default {
 };
 </script>
 <style scoped>
+.posts-container {
+  width: 100%;
+  height: 100%;
+}
+
 ul {
   margin: 0 auto;
   list-style: none;
@@ -69,18 +77,24 @@ ul {
 
 ul > li {
   width: 23%;
-  height: 100%;
+  min-height: 100%;
   margin-bottom: 15px;
   margin-right: 10px;
   overflow: hidden;
-  flex-grow: 1;
-  box-shadow: 9px 13px 28px -19px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 9px 13px 28px -19px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 9px 13px 28px -19px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 2px 13px 0px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0px 2px 13px 0px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0px 2px 13px 0px rgba(0, 0, 0, 0.25);
 }
 
 .text {
   padding: 15px;
+}
+
+.image {
+  width: 100%;
+  height: 200px;
+  background-position: center;
+  background-size: cover;
 }
 
 .author-date {
@@ -93,10 +107,6 @@ ul > li {
   font-family: 'Raleway';
   font-size: 1.3em;
   padding-bottom: 3px;
-}
-
-img {
-  max-width: 100%;
 }
 
 .description {

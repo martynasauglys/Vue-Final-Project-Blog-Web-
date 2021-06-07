@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
-import EventBus from './utilities/EventBus';
 import VueFinalModal from 'vue-final-modal';
 
 Vue.config.productionTip = false;
@@ -26,4 +25,3 @@ Vue.use(require('vue-moment'));
 Vue.use(VueFinalModal());
 
 //
-Vue.prototype.$bus = EventBus;

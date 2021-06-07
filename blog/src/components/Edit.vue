@@ -15,6 +15,7 @@
       <input id="image" type="text" v-model="image" />
       <button @click="handleUpdate">Update</button>
     </form>
+    <p class="server-message">{{ serverMessage }}</p>
   </div>
 </template>
 
@@ -29,6 +30,7 @@ export default {
       username: this.$route.params.username,
       secretKey: localStorage.getItem('secretKey'),
       id: this.$route.params.id,
+      serverMessage: '',
     };
   },
   beforeMount() {
@@ -64,7 +66,10 @@ export default {
       fetch('http://167.99.138.67:1111/updatepost', requestOptions)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          this.serverMessage = data.message;
+          if (data.success === true) {
+            this.$router.push(`/post/${this.username}/${this.id}`);
+          }
         });
     },
   },
@@ -77,13 +82,57 @@ form {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 30px 0;
 }
 
 form > textarea {
-  width: 40%;
+  width: 70%;
+  margin-bottom: 15px;
+  font-family: 'Montserrat';
+  font-size: 1em;
+  padding: 5px 10px;
 }
 
 form > input {
-  width: 40%;
+  width: 70%;
+  margin-bottom: 15px;
+  font-family: 'Montserrat';
+  font-size: 1em;
+  padding: 5px 10px;
+}
+
+form > label {
+  font-family: 'Montserrat';
+  font-size: 1em;
+  padding-bottom: 10px;
+}
+
+form > button {
+  margin-bottom: 15px;
+  padding: 10px 10px;
+  background-color: blue;
+  color: white;
+  font-family: 'raleway';
+  font-size: 1em;
+  font-weight: 700;
+  border: 0;
+}
+
+form > button:hover {
+  cursor: pointer;
+}
+
+h2 {
+  font-family: 'raleway';
+  font-size: 2em;
+}
+
+.server-message {
+  text-align: center;
+  font-family: 'Montserrat';
+  font-size: 1em;
+  background-color: black;
+  color: white;
+  padding: 15px 10px;
 }
 </style>

@@ -1,7 +1,6 @@
 <template>
   <main>
     <div class="container">
-      <h2>Create new post</h2>
       <Create />
     </div>
   </main>

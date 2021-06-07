@@ -12,21 +12,39 @@
       <h3 class="posts-by">Posts by {{ posts[0].username }}</h3>
       <ul>
         <li v-for="post in posts" :key="post.id">
-          <img :src="post.image" alt="" />
-          <p class="author-date">
-            {{ post.timestamp | moment('MMMM D, YYYY') }}
-          </p>
-          <h3 class="title">{{ post.title | truncate(75, '...') }}</h3>
-          <p class="description">
-            {{ post.description | truncate(150, '...') }}
-          </p>
-          <button @click="postRedirect(post.id)">Read more</button>
-          <button
-            @click="editRedirect(post.id)"
-            v-if="post.username === loggedUser"
-          >
-            Edit
-          </button>
+          <div
+            class="image"
+            :style="{ backgroundImage: 'url(' + post.image + ')' }"
+          ></div>
+          <div class="text">
+            <p class="author-date">
+              {{ post.timestamp | moment('MMMM D, YYYY') }}
+            </p>
+            <h3 class="title">{{ post.title | truncate(75, '...') }}</h3>
+            <p class="description">
+              {{ post.description | truncate(150, '...') }}
+            </p>
+            <button
+              @click="postRedirect(post.id, post.username)"
+              class="btn read-more"
+            >
+              Read more
+            </button>
+            <button
+              @click="editRedirect(post.id)"
+              v-if="post.username === loggedUser"
+              class="btn green"
+            >
+              Edit
+            </button>
+            <button
+              @click="showModal = true"
+              v-if="post.username === loggedUser"
+              class="btn red"
+            >
+              Delete
+            </button>
+          </div>
           <div>
             <vue-final-modal
               v-model="showModal"
@@ -38,16 +56,12 @@
                 >Are you sure you want to delete this post?</span
               >
               <div class="modal__content">
-                <button @click="handleDelete(post.id)">Delete</button>
+                <button @click="handleDelete(post.id)">
+                  Delete
+                </button>
                 <button @click="showModal = false">Cancel</button>
               </div>
             </vue-final-modal>
-            <button
-              @click="showModal = true"
-              v-if="post.username === loggedUser"
-            >
-              Delete
-            </button>
           </div>
         </li>
       </ul>
@@ -93,8 +107,8 @@ export default {
     editRedirect(id) {
       this.$router.push(`/edit/${this.loggedUser}/${id}`);
     },
-    postRedirect(id) {
-      this.$router.push(`/post/${this.loggedUser}/${id}`);
+    postRedirect(id, username) {
+      this.$router.push(`/post/${username}/${id}`);
     },
     createRedirect() {
       this.$router.push('/create');
@@ -128,13 +142,53 @@ ul {
 
 ul > li {
   width: 23%;
+  min-height: 100%;
   margin-bottom: 15px;
   margin-right: 10px;
   overflow: hidden;
+  box-shadow: 0px 2px 13px 0px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0px 2px 13px 0px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0px 2px 13px 0px rgba(0, 0, 0, 0.25);
 }
 
-img {
-  max-width: 100%;
+.text {
+  padding: 15px;
+}
+
+.btn {
+  font-family: 'Raleway';
+  color: white;
+  border: 0;
+  padding: 5px 10px;
+  font-size: 1em;
+  font-weight: 700;
+  margin-right: 5px;
+}
+
+.read-more {
+  background-color: blue;
+}
+
+.green {
+  background-color: green;
+  color: white;
+}
+
+.red {
+  background-color: red;
+  color: white;
+}
+
+.btn:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.image {
+  width: 100%;
+  height: 200px;
+  background-position: center;
+  background-size: cover;
 }
 
 .link {
@@ -230,10 +284,32 @@ img {
   background: #fff;
 }
 .modal__title {
+  font-family: 'raleway';
   margin: 0 2rem 0 0;
   font-size: 1.5rem;
   font-weight: 700;
+  text-align: center;
 }
+
+.modal__content {
+  text-align: center;
+}
+
+.modal__content > button {
+  font-family: 'Raleway';
+  color: white;
+  background-color: blue;
+  border: 0;
+  padding: 5px 10px;
+  font-size: 1em;
+  margin: 15px 15px 0 0;
+}
+
+.modal__content > button:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
 .modal__close {
   position: absolute;
   top: 0.5rem;

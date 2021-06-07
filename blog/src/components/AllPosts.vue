@@ -88,6 +88,12 @@ ul > li {
 
 .text {
   padding: 15px;
+  transition: 0.2s;
+}
+
+.text:hover {
+  background-color: black;
+  color: white;
 }
 
 .image {
